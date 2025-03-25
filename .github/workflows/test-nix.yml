@@ -57,6 +57,6 @@ jobs:
 
           export NIX_GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
 
-          nix registry add asimov-cli github:AlexSanches1/homebrew-test
+          nix registry add asimov-cli github:asimov-platform/nix-flake
           nix profile install asimov-cli#default --no-write-lock-file
           asimov --version
