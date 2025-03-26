@@ -1,0 +1,66 @@
+name: Nix CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  test-nix:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, macos-latest ]
+
+    steps:
+      - name: Check out this repo
+        uses: actions/checkout@v3
+
+      - name: Configure Git for Authenticated Fetch
+        shell: bash
+        run: |
+          git config --global url."https://${{ secrets.GITHUB_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+
+      - name: Install Nix (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        shell: bash
+        run: |
+          curl -L https://nixos.org/nix/install | sh
+          mkdir -p ~/.config/nix
+          echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
+          source /home/runner/.nix-profile/etc/profile.d/nix.sh
+          nix --version
+
+      - name: Install Nix (macOS)
+        if: matrix.os == 'macos-latest'
+        shell: bash
+        run: |
+          sh <(curl -L https://nixos.org/nix/install) --daemon
+          mkdir -p ~/.config/nix
+          echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
+          source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+          nix --version
+
+      - name: Install asimov-cli and Check
+        shell: bash
+        run: |
+          if [ -f /home/runner/.nix-profile/etc/profile.d/nix.sh ]; then
+            source /home/runner/.nix-profile/etc/profile.d/nix.sh
+          fi
+
+          if [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
+            source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+          fi
+
+          export NIX_GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
+
+          nix registry add asimov-cli github:asimov-platform/nix-flake
+
+          nix profile install asimov-cli#default --no-write-lock-file
+
+          asimov --version
