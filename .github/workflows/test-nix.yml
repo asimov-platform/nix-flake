@@ -7,7 +7,7 @@ on:
   pull_request:
 
 permissions:
-  contents: write
+  contents: read
   packages: read
 
 jobs:
@@ -33,7 +33,6 @@ jobs:
           curl -L https://nixos.org/nix/install | sh
           mkdir -p ~/.config/nix
           echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
-          echo "access-tokens = github.com=$NIX_GITHUB_TOKEN" >> ~/.config/nix/nix.conf
           source /home/runner/.nix-profile/etc/profile.d/nix.sh
           nix --version
 
@@ -44,7 +43,6 @@ jobs:
           sh <(curl -L https://nixos.org/nix/install) --daemon
           mkdir -p ~/.config/nix
           echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
-          echo "access-tokens = github.com=$NIX_GITHUB_TOKEN" >> ~/.config/nix/nix.conf
           source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
           nix --version
 
@@ -59,9 +57,9 @@ jobs:
             source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
           fi
 
-          export NIX_GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
+#          export NIX_GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
 
-          nix registry add asimov-cli 'github:asimov-platform/nix-flake'
+          nix registry add asimov-cli github:asimov-platform/nix-flake?ref=nix-ci
 
           nix profile install asimov-cli#default --no-write-lock-file
 
