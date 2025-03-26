@@ -36,6 +36,7 @@ jobs:
           sh <(curl -L https://nixos.org/nix/install) --daemon
           mkdir -p ~/.config/nix
           echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
+          echo "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}" >> ~/.config/nix/nix.conf
           source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
           nix --version
 
