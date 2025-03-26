@@ -52,7 +52,6 @@ jobs:
           if [ -f /home/runner/.nix-profile/etc/profile.d/nix.sh ]; then
             source /home/runner/.nix-profile/etc/profile.d/nix.sh
           fi
-
           if [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
             source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
           fi
@@ -60,7 +59,5 @@ jobs:
 #          export NIX_GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
 
           nix registry add asimov-cli 'github:asimov-platform/nix-flake?ref=nix-ci'
-
           nix profile install asimov-cli#default --no-write-lock-file
-
           asimov --version
