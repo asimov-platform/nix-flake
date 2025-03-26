@@ -55,12 +55,6 @@ jobs:
       - name: Install asimov-cli and Check
         shell: bash
         run: |
-          if [ -f /home/runner/.nix-profile/etc/profile.d/nix.sh ]; then
-            source /home/runner/.nix-profile/etc/profile.d/nix.sh
-          fi
-          if [ -f /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]; then
-            source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-          fi
 
           nix registry add asimov-cli 'github:asimov-platform/nix-flake?ref=nix-ci'
 
