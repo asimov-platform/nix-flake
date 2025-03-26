@@ -43,14 +43,14 @@
 
       asimov-x86_64-linux = mkAsimov {
         system = "x86_64-linux";
-        url    = "https://github.com/asimov-platform/asimov-cli/releases/download/${version}/asimov-linux-x86.gz";
+        url    = "https://github.com/asimov-platform/asimov-cli/releases/download/${version}/asimov-linux-x86-gnu.gz";
         sha256 = "0c30685a1b814364c17a70b629e3b94a24bec0c66c1943bd324cf56b57980326";
         inherit version;
       };
 
       asimov-aarch64-linux = mkAsimov {
         system = "aarch64-linux";
-        url    = "https://github.com/asimov-platform/asimov-cli/releases/download/${version}/asimov-linux-arm.gz";
+        url    = "https://github.com/asimov-platform/asimov-cli/releases/download/${version}/asimov-linux-arm-gnu.gz";
         sha256 = "2761b82936598588b7266d6d63abd1271e57d087c14f382f1ab15e523973c3e5";
         inherit version;
       };
