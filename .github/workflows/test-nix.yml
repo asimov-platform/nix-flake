@@ -33,6 +33,9 @@ jobs:
           curl -L https://nixos.org/nix/install | sh
           mkdir -p ~/.config/nix
           echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
+
+          # echo "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}" >> ~/.config/nix/nix.conf
+
           source /home/runner/.nix-profile/etc/profile.d/nix.sh
           nix --version
 
@@ -43,6 +46,9 @@ jobs:
           sh <(curl -L https://nixos.org/nix/install) --daemon
           mkdir -p ~/.config/nix
           echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
+
+          echo "access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}" >> ~/.config/nix/nix.conf
+
           source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
           nix --version
 
@@ -57,5 +63,7 @@ jobs:
           fi
 
           nix registry add asimov-cli 'github:asimov-platform/nix-flake?ref=nix-ci'
+
           nix profile install asimov-cli#default --no-write-lock-file
+
           asimov --version
