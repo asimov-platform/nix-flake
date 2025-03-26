@@ -2,7 +2,8 @@ name: Nix CI
 
 on:
   push:
-    branches: [ "main" ]
+#    branches:
+#      - master
   pull_request:
 
 permissions:
@@ -58,7 +59,7 @@ jobs:
 
           export NIX_GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
 
-          nix registry add asimov-cli github:asimov-platform/nix-flake
+          nix registry add asimov-cli 'github:asimov-platform/nix-flake?ref=nix-ci'
 
           nix profile install asimov-cli#default --no-write-lock-file
 
