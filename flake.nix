@@ -68,7 +68,8 @@
         sha256 = "c89a0660b1d091c332f6cf1611fe6f9021c8ed48948f2c43e2b05dfeb7afc8de";
         inherit version;
       };
-    in {
+    in
+    {
       packages.x86_64-linux.default = asimov-x86_64-linux;
       packages.aarch64-linux.default = asimov-aarch64-linux;
       packages.x86_64-darwin.default = asimov-x86_64-darwin;
